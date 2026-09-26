@@ -655,7 +655,8 @@
   });
 
   /* ---------- 7b. AGENDA: calendario, conto alla rovescia, filtri ---------- */
-  var IANUA = { mail: 'ianuaeventi@gmail.com', tel: '+39 346 031 5409', ig: 'https://instagram.com/___ianua___' };
+  var IANUA = { mail: 'ianuaeventi@gmail.com', tel: '+39 346 031 5409', ig: 'https://instagram.com/___ianua___',
+                sito: 'https://collettivoianua.it/' };
 
   function icsFold(line) {           // lo standard vuole righe non piu' lunghe di 75 ottetti:
     var out = '', bytes = 0;         // si contano i byte UTF-8, una lettera accentata ne vale due
@@ -679,12 +680,14 @@
     var place = el.getAttribute('data-ev-place') || '';
     var note = el.getAttribute('data-ev-note') || '';
     var page = el.getAttribute('data-ev-page');
-    var url = page ? new URL(page, location.href).href : location.href.split('#')[0];
+    // Sempre il dominio pubblico, mai location.href: un .ics scaricato dall'anteprima
+    // resterebbe con l'indirizzo di servizio dentro, e chi lo apre finirebbe li'.
+    var url = new URL(page || '', IANUA.sito).href;
     var maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(place);
     // La descrizione porta con sé tutto quello che serve a chi apre l'evento sul telefono.
     var desc = [note, '', 'Dove: ' + place, 'Mappa: ' + maps, '', 'IANUA — collettivo artistico',
                 'Email: ' + IANUA.mail, 'Telefono: ' + IANUA.tel, 'Instagram: ' + IANUA.ig,
-                'Programma: ' + url].join('\n');
+                'Programma: ' + url, 'Sito: ' + IANUA.sito].join('\n');
     var stamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
     var uid = ymd(start) + '-' + title.toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40) + '@ianua';
     var L = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//IANUA//sito//IT', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',

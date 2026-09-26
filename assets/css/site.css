@@ -702,6 +702,9 @@ footer .legal a:hover{color:var(--gold-2)}
 .pt{display:flex;flex-direction:column;padding:18px 0 8px;border-bottom:1px solid var(--rule);min-width:0}
 .pt-logo{height:44px;display:flex;align-items:center;margin-bottom:12px}
 .pt-logo img{max-height:40px;max-width:min(130px,100%);width:auto;height:auto;filter:brightness(0);opacity:.8}
+/* Dove il logo manca, il nome tiene lo stesso spazio sopra (44 px del riquadro + 12 di stacco),
+   così i nomi restano sulla stessa riga in tutta la griglia. */
+.pt > h4:first-child{margin-top:56px}
 .pt h4{font-family:var(--serif);font-size:clamp(18px,1.9vw,23px);font-weight:400;line-height:1.15;overflow-wrap:anywhere}
 .pt p{margin-top:6px}
 .pt .pt-type{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);font-weight:500;line-height:1.5}
@@ -758,12 +761,13 @@ footer .legal a:hover{color:var(--gold-2)}
 .people-compact .person .role{font-size:10px;letter-spacing:.16em;margin:6px 0 8px}
 .people-compact .person p{font-size:13px;line-height:1.5}
 
-/* Home, gli ianui: al telefono due ritratti affiancati invece di uno per riga (15/9) */
+/* Telefono: due ritratti affiancati invece di uno per riga, in ogni griglia di artisti
+   (home, collettivo, «gli altri artisti» nelle schede). .people-compact ha già la sua. */
 @media (max-width:639px){
-  .people.people-pair{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 14px}
-  .people-pair .person h3{font-size:clamp(19px,5.4vw,23px);margin-top:14px;line-height:1.12}
-  .people-pair .person .role{font-size:10px;letter-spacing:.16em;margin:7px 0 10px}
-  .people-pair .person p{font-size:14px;line-height:1.5;overflow-wrap:break-word}
+  .people:not(.people-compact){grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 14px}
+  .people:not(.people-compact) .person h3{font-size:clamp(19px,5.4vw,23px);margin-top:14px;line-height:1.12;overflow-wrap:break-word}
+  .people:not(.people-compact) .person .role{font-size:10px;letter-spacing:.16em;margin:7px 0 10px;overflow-wrap:break-word}
+  .people:not(.people-compact) .person p{font-size:14px;line-height:1.5;overflow-wrap:break-word}
 }
 
 /* ============ PRO-FILI IN CHIARO (15/9) ============
