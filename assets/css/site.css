@@ -421,16 +421,37 @@ html.motion .person .ph img{transition:transform 1.2s var(--ease-out),filter .7s
 .rv{opacity:1;transform:none}
 html.motion .rv{opacity:0;transform:translateY(22px);transition:opacity 1s var(--ease-out),transform 1s var(--ease-out)}
 html.motion .rv.in{opacity:1;transform:none}
-/* dispiegamento: le voci di un [data-unfold] entrano una dopo l'altra (.unfold-item,
-   aperta con .unfold-in). Si nascondono solo quando lo script ha messo .unfold-ready
-   sul contenitore: senza JavaScript restano visibili. Non usare insieme a .rv.
-   Le regole guardano solo le classi, non la struttura: il contenitore puo' essere un ol
-   o un div, le voci dei li o dei div, a qualunque profondita'. */
-html.motion .unfold-ready .unfold-item{opacity:0;transform:translateY(18px);
-  transition:opacity var(--t-base) var(--ease-out),transform var(--t-base) var(--ease-out)}
-html.motion .unfold-ready .unfold-item.unfold-in{opacity:1;transform:none}
+/* dissolvenza: un [data-unfold] si rivela con una maschera a gradiente che scende
+   dall'alto al basso, in un movimento solo. Lo script mette .unfold-ready sul
+   contenitore (senza JavaScript non c'e' maschera e si legge tutto) e poi
+   .unfold-in per far partire la discesa. Le voci .unfold-item non si animano una
+   per una: la continuita' sta nel gradiente, non in una fila di ritardi.
+   Non usare insieme a .rv. Le due forme, con e senza -webkit-, servono entrambe:
+   Safari applica le maschere solo col prefisso.
+   Geometria: la maschera e' alta 3 volte il contenitore (opaca per il primo terzo,
+   sfumata fino a meta', poi trasparente). Da 0 100% a 0 0 il fronte sfumato
+   attraversa il blocco dall'alto al basso una volta sola. */
+html.motion .unfold-ready{
+  -webkit-mask-image:linear-gradient(to bottom,#000 0,#000 33.333%,transparent 50%,transparent 100%);
+          mask-image:linear-gradient(to bottom,#000 0,#000 33.333%,transparent 50%,transparent 100%);
+  -webkit-mask-size:100% 300%;   mask-size:100% 300%;
+  -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
+  -webkit-mask-position:0 100%;  mask-position:0 100%;
+}
+/* 1320ms: sotto il secondo non si nota, oltre il secondo e mezzo diventa attesa.
+   Andatura lineare: il velo deve scendere a velocita' costante, senza scatti. */
+html.motion .unfold-ready.unfold-in{
+  -webkit-animation:unfold-veil calc(var(--t-slow) + var(--t-base)) linear forwards;
+          animation:unfold-veil calc(var(--t-slow) + var(--t-base)) linear forwards;
+}
+@-webkit-keyframes unfold-veil{from{-webkit-mask-position:0 100%}to{-webkit-mask-position:0 0}}
+@keyframes unfold-veil{
+  from{-webkit-mask-position:0 100%;mask-position:0 100%}
+  to{-webkit-mask-position:0 0;mask-position:0 0}
+}
 @media (prefers-reduced-motion:reduce){
-  html.motion .unfold-ready .unfold-item{opacity:1;transform:none;transition:none}
+  html.motion .unfold-ready{-webkit-mask-image:none;mask-image:none;
+    -webkit-animation:none;animation:none}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}

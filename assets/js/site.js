@@ -96,28 +96,30 @@
     rv.forEach(function (el) { io.observe(el); });
   } else { rv.forEach(function (el) { el.classList.add('in'); }); }
 
-  // Dispiegamento: le voci (.unfold-item) di un contenitore [data-unfold] ricevono
-  // .unfold-in una dopo l'altra quando il contenitore entra in vista, e restano aperte.
-  // Il contenitore viene nascosto (.unfold-ready) solo qui, cosi' senza script si legge
-  // tutto. Finita la sequenza si manda un resize: il filo rimisura i suoi ancoraggi.
-  // Non conta la struttura: il contenitore puo' essere un ol, un div o altro, e le voci
-  // sono tutti i discendenti con .unfold-item (li, div, qualunque tag).
+  // Dissolvenza: un contenitore [data-unfold] si rivela con una maschera a gradiente
+  // che scende dall'alto al basso, in un movimento unico, quando il blocco entra in
+  // vista. Il contenitore viene mascherato (.unfold-ready) solo qui, cosi' senza
+  // script si legge tutto; .unfold-in fa partire la discesa. Le singole voci
+  // (.unfold-item) non si animano una per una: la continuita' e' nel gradiente.
+  // Finita la dissolvenza si toglie la maschera (un elemento mascherato in permanenza
+  // perde l'antialiasing del testo su Safari) e si manda un resize: il filo rimisura
+  // i suoi ancoraggi. Non conta la struttura: il contenitore puo' essere un ol, un div
+  // o altro, e le voci sono tutti i discendenti con .unfold-item.
   (function () {
     var boxes = document.querySelectorAll('[data-unfold]'); if (!boxes.length) return;
-    var PASSO = 170;
+    var DURATA = 1500; // 1320ms di dissolvenza (CSS) piu' un margine
     function voci(box) { return box.querySelectorAll('.unfold-item'); }
     function apri(box) {
-      var its = voci(box);
-      its.forEach(function (it, i) { setTimeout(function () { it.classList.add('unfold-in'); }, i * PASSO); });
-      setTimeout(function () { dispatchEvent(new Event('resize')); }, its.length * PASSO + 460);
+      box.classList.add('unfold-in');
+      setTimeout(function () {
+        box.classList.remove('unfold-in'); box.classList.remove('unfold-ready');
+        dispatchEvent(new Event('resize'));
+      }, DURATA);
     }
-    if (reduce || !('IntersectionObserver' in window)) {
-      boxes.forEach(function (b) { voci(b).forEach(function (it) { it.classList.add('unfold-in'); }); });
-      return;
-    }
+    if (reduce || !('IntersectionObserver' in window)) { return; }
     var uo = new IntersectionObserver(function (es) {
       es.forEach(function (en) { if (en.isIntersecting) { uo.unobserve(en.target); apri(en.target); } });
-    }, { threshold: 0, rootMargin: '0px 0px -32% 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px -12% 0px' });
     boxes.forEach(function (b) {
       // se in quel contenitore non c'e' nessuna voce da dispiegare non lo si nasconde:
       // meglio niente animazione che contenuto invisibile
@@ -126,19 +128,19 @@
       // Rete di sicurezza: se l'osservatore non consegna mai (scheda aperta in
       // sottofondo, pagina mai messa in primo piano, browser che sospende le
       // notifiche) le voci resterebbero invisibili. Dopo 4 secondi si aprono
-      // comunque, senza sequenza: meglio nessuna animazione che testo assente.
+      // comunque, senza dissolvenza: meglio nessuna animazione che testo assente.
       // Il conto avanza solo mentre il contenitore e' davvero a schermo: un
       // contenitore ancora lontano sotto la piega non e' un guasto, e aprirlo in
-      // anticipo brucia la sequenza prima che qualcuno possa vederla.
+      // anticipo brucia la dissolvenza prima che qualcuno possa vederla.
       var atteso = 0;
       var rete = setInterval(function () {
         var its = voci(b);
-        if (!its.length || its[0].classList.contains('unfold-in')) { clearInterval(rete); return; }
+        if (!its.length || b.classList.contains('unfold-in')) { clearInterval(rete); return; }
         var r = b.getBoundingClientRect();
         if (r.bottom < 0 || r.top > innerHeight) return;
         atteso += 250; if (atteso < 4000) return;
         clearInterval(rete); uo.unobserve(b);
-        its.forEach(function (it) { it.classList.add('unfold-in'); });
+        b.classList.remove('unfold-ready');
         dispatchEvent(new Event('resize'));
       }, 250);
     });
