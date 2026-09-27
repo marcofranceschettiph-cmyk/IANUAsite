@@ -712,6 +712,61 @@
     });
   });
 
+
+  /* ---------- 7c. «Gli altri artisti»: quattro a caso a ogni visita ----------
+     Nelle schede si vedevano sempre le stesse facce. Qui se ne pescano quattro
+     fra gli artisti del festival che non sono del collettivo, saltando la scheda
+     che si sta guardando. I quattro scritti nella pagina restano come rete di
+     sicurezza: senza JavaScript si vedono quelli. */
+  var ALTRI = [
+    {s:"mattia-signorini",n:"Mattia Signorini",r:"Scrittura",t:"Romanziere, tradotto in mezzo mondo.",i:"mattia-signorini.webp",ss:"mattia-signorini_sm.webp 800w, mattia-signorini.webp 1280w",a:"Ritratto di Mattia Signorini",w:1280,h:1600},
+    {s:"giorgia-roversi",n:"Giorgia Roversi",r:"Pittura",t:"Pittura dell'anatomia invisibile delle emozioni.",i:"giorgia-roversi.webp",ss:"giorgia-roversi_sm.webp 800w, giorgia-roversi.webp 906w",a:"Ritratto di Giorgia Roversi",w:906,h:1133},
+    {s:"zentequerente",n:"Zentequerente",r:"Arti visive",t:"Disegno e segni raccolti: l'invisibile dentro il visibile.",i:"zentequerente.webp",ss:"zentequerente_sm.webp 800w, zentequerente.webp 1086w",a:"Ritratto di Zentequerente, di profilo",w:1086,h:1357},
+    {s:"marcello-ubertone",n:"Marcello Ubertone",r:"Cantautorato",t:"Canzoni che raccontano storie, tra immaginazione e vita vera.",i:"marcello-ubertone.webp",ss:"marcello-ubertone_sm.webp 800w, marcello-ubertone.webp 1280w",a:"Ritratto di Ubertone, di profilo",w:1280,h:1600},
+    {s:"anna-spazio-marangon",n:"Anna Spazio Marangon",r:"Arti visive · installazione",t:"Installazioni di fili e nodi, tra spazio e materia.",i:"anna-spazio-marangon.webp",ss:"anna-spazio-marangon_sm.webp 475w",a:"Ritratto di Anna Spazio Marangon, di profilo",w:475,h:593},
+    {s:"enrico-buoso",n:"Enrico Buoso",r:"Musica e composizione",t:"Intrecci di note e reti di persone.",i:"enrico-buoso.webp",ss:"enrico-buoso_sm.webp 800w, enrico-buoso.webp 1148w",a:"Ritratto di Enrico Buoso",w:1148,h:1435},
+    {s:"martino-prendini",n:"Martino Prendini",r:"Arti visive",t:"Esplora con i sensi quello che non si scopre in altro modo.",i:"martino-prendini.webp",ss:"martino-prendini_sm.webp 800w, martino-prendini.webp 1280w",a:"Ritratto di Martino Prendini",w:1280,h:1600},
+    {s:"daniele-corrain",n:"Daniele Corrain",r:"Pittura e illustrazione",t:"Dipinge quello che gli passa per la testa, sporcandosi le mani.",i:"daniele-corrain.webp",ss:"daniele-corrain_sm.webp 800w, daniele-corrain.webp 1280w",a:"Ritratto di Daniele Corrain, di profilo",w:1280,h:1593},
+    {s:"giulia-dal-pra",n:"Giulia Dal Prà",r:"Collage",t:"Ritaglia, accosta e ricompone quello che gli altri hanno smesso di guardare.",i:"giulia-dal-pra.webp",ss:"giulia-dal-pra_sm.webp 800w, giulia-dal-pra.webp 1280w",a:"Ritratto di Giulia Dal Prà",w:1280,h:1600},
+    {s:"anna-randolo",n:"Anna Randolo",r:"Illustrazione · Unnyverso",t:"Dà colore e voce alle storie, soprattutto per i bambini.",i:"anna-randolo.webp",ss:"anna-randolo_sm.webp 800w, anna-randolo.webp 1280w",a:"Ritratto di Anna Randolo",w:1280,h:1600},
+    {s:"caino",n:"CAINO",r:"Fotografia",t:"Fotografie che strappano e ricompongono le icone della pittura.",i:"caino.webp",ss:"caino_sm.webp 640w, caino.webp 1280w",a:"Logo di CAINO, bianco su fondo nero",w:1280,h:1600},
+    {s:"filo",n:"FILO",r:"Cantautorato",t:"Cantautore, autore del disco «In cerca di un filo».",i:"filo.webp",ss:"filo_sm.webp 316w, filo.webp 396w",a:"Ritratto di FILO, di profilo",w:396,h:495},
+    {s:"massimo-marchioro",n:"Massimo Marchioro",r:"Pittura",t:"Cerca nelle stanze più profonde, e le scale che portano in alto.",i:"massimo-marchioro.webp",ss:"massimo-marchioro_sm.webp 800w, massimo-marchioro.webp 1280w",a:"Ritratto di Massimo Marchioro, di profilo",w:1280,h:1600}
+  ];
+
+  (function () {
+    var griglia = document.querySelector('[data-altri-artisti]');
+    if (!griglia) return;
+    var schede = griglia.querySelectorAll('.person');
+    if (!schede.length) return;
+
+    // la scheda aperta non si propone da sola
+    var qui = (location.pathname.split('/').pop() || '').replace(/\.html$/, '');
+    var mazzo = ALTRI.filter(function (a) { return a.s !== qui; });
+
+    // mescolata di Fisher-Yates: ogni ordine ha la stessa probabilita'
+    for (var i = mazzo.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = mazzo[i]; mazzo[i] = mazzo[j]; mazzo[j] = t;
+    }
+    if (mazzo.length < schede.length) return;   // meno artisti che caselle: si lascia com'e'
+
+    Array.prototype.forEach.call(schede, function (scheda, k) {
+      var a = mazzo[k], img = scheda.querySelector('img');
+      var h3 = scheda.querySelector('h3'), ruolo = scheda.querySelector('.role');
+      var testo = scheda.querySelectorAll('figure > p');
+      if (!img || !h3 || !ruolo) return;
+      scheda.setAttribute('href', a.s + '.html');
+      img.setAttribute('src', '../assets/img/' + a.i);
+      img.setAttribute('srcset', a.ss.replace(/([a-z0-9_.-]+\.webp)/g, '../assets/img/$1'));
+      img.setAttribute('alt', a.a);
+      img.setAttribute('width', a.w); img.setAttribute('height', a.h);
+      h3.textContent = a.n;
+      ruolo.textContent = a.r;
+      if (testo.length) testo[testo.length - 1].textContent = a.t;
+    });
+  })();
+
   document.querySelectorAll('[data-countdown]').forEach(function (el) {
     var d = new Date(el.getAttribute('data-countdown') + 'T00:00:00');
     var oggi = new Date(); oggi.setHours(0, 0, 0, 0);
