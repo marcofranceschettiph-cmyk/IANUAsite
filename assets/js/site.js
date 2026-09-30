@@ -938,3 +938,40 @@
 
   schedule();
 })();
+
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Locandina del programma.
+   Il tasto e' gia' nell'HTML ma parte nascosto: qui si cerca il file e, se
+   c'e' davvero, si accende. Per pubblicarla basta caricare il file in
+   assets/locandina/ con nome programma.pdf oppure programma.jpg.
+   Nessuna modifica al codice. Finche' il file manca non si vede niente,
+   cosi' non resta in pagina un collegamento rotto.
+   ───────────────────────────────────────────────────────────────────────── */
+(function () {
+  'use strict';
+  var box = document.getElementById('locandina');
+  if (!box || !window.fetch) return;
+  var base = box.getAttribute('data-loc-base') || 'assets/locandina/';
+  var nomi = ['programma.pdf', 'programma.jpg'];   // due tentativi, non di piu': ogni file assente e' un 404 in console
+
+  function accendi(url) {
+    var apri = document.getElementById('loc-apri'), scarica = document.getElementById('loc-scarica');
+    if (!apri || !scarica) return;
+    apri.href = url;
+    scarica.href = url;
+    box.hidden = false;
+  }
+
+  (function prova(i) {
+    if (i >= nomi.length) return;                       // nessuna locandina: il tasto resta invisibile
+    var url = base + nomi[i];
+    fetch(url, { method: 'HEAD' }).then(function (r) {
+      // la pagina di errore di Netlify torna 404, ma un file assente servito
+      // come HTML non deve mai accendere il tasto: si controlla anche il tipo
+      var tipo = r.headers.get('content-type') || '';
+      if (r.ok && tipo.indexOf('text/html') === -1) accendi(url);
+      else prova(i + 1);
+    }).catch(function () { prova(i + 1); });
+  })(0);
+})();
