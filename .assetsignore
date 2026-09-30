@@ -11,3 +11,5 @@
 wrangler.jsonc
 .assetsignore
 netlify.toml
+CNAME
+.nojekyll
