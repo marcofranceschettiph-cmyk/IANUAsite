@@ -9,6 +9,7 @@ README.md
 
 # Script di servizio e modello di pagina: servono a noi, non ai visitatori.
 tools/
+assets/locandina/LEGGIMI.txt
 
 # File temporanei dell'editor e del sistema
 *.swp
