@@ -1,0 +1,6 @@
+# Quello che sta nel repository ma non deve finire online.
+# Le pagine, le immagini e gli script ci vanno tutti: qui stanno solo i file
+# di servizio. _headers non si mette: Cloudflare lo legge e non lo pubblica.
+wrangler.jsonc
+.assetsignore
+netlify.toml

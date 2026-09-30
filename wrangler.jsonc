@@ -1,0 +1,17 @@
+// Configurazione per la pubblicazione su Cloudflare.
+//
+// Il sito è fatto di pagine già pronte: non c'è niente da compilare. Qui si dice
+// soltanto quale cartella contiene i file da servire — la radice — e che quando
+// un indirizzo non esiste va mostrata 404.html.
+//
+// Le intestazioni e la durata della cache restano nel file _headers, che
+// Cloudflare legge da sé senza pubblicarlo. Quello che non deve finire online è
+// elencato in .assetsignore.
+{
+  "name": "ianuasite",
+  "compatibility_date": "2026-09-30",
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "404-page"
+  }
+}
