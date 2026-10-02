@@ -922,3 +922,9 @@ body.carta .nav .brand .lg-dark{display:block}
    a questi si da' il doppio dello spazio (Briciole, Non Solo Arte). */
 .pt-logo--verticale{height:78px}
 .pt-logo--verticale img{max-height:74px}
+
+/* pagina del festival: il rimando a profilifestival.it. Una riga piccola sotto i dati,
+   senza pulsante: il sito del collettivo resta la casa, il festival ha la sua porta. */
+.pf-sito{margin-top:14px;font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--fg-2)}
+.pf-sito a{color:var(--fg);text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:.3em;transition:color var(--t-fast),text-decoration-color var(--t-fast)}
+.pf-sito a:hover{color:var(--accent-2);text-decoration-color:var(--accent)}
