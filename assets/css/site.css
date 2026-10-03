@@ -928,3 +928,6 @@ body.carta .nav .brand .lg-dark{display:block}
 .pf-sito{margin-top:14px;font-family:var(--sans);font-size:13px;line-height:1.6;color:var(--fg-2)}
 .pf-sito a{color:var(--fg);text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:.3em;transition:color var(--t-fast),text-decoration-color var(--t-fast)}
 .pf-sito a:hover{color:var(--accent-2);text-decoration-color:var(--accent)}
+
+/* numeri «moderni» dentro i testi in Cormorant: lo 0 non deve sembrare una o */
+.num{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
