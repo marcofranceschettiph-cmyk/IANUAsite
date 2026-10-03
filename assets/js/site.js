@@ -529,7 +529,10 @@
             var c1 = Math.min(Math.abs(lane - E[0]), dy * 0.4), c2 = Math.min(Math.abs(lane - S[0]), dy * 0.4);
             var A = [lane, E[1] + c1], B = [lane, S[1] - c2];
             bez(E, [E[0] + prevDir * Math.abs(lane - E[0]) * 0.55, E[1]], [lane, A[1] - c1 * 0.55], A);
-            bez(A, [lane, A[1] + (B[1] - A[1]) / 3], [lane, B[1] - (B[1] - A[1]) / 3], B);
+            // la discesa ondeggia appena (una S lunga verso l'esterno), sempre dentro lo schermo
+            var fuori = prevDir > 0 ? vw - box.left - lane - 6 : lane + box.left - 6;
+            var sw = clamp(fuori, 0, 26) * (0.75 + rnd(k * 7 + 5) * 0.5), sd = Math.min(7, sw * 0.4);
+            bez(A, [lane + prevDir * sw * 1.5, A[1] + (B[1] - A[1]) / 3], [lane - prevDir * sd * 1.5, B[1] - (B[1] - A[1]) / 3], B);
             bez(B, [lane, B[1] + c2 * 0.55], [S[0] - d * Math.abs(lane - S[0]) * 0.55, S[1]], S);
           }
           for (var st = 1; st <= 48; st++) {
