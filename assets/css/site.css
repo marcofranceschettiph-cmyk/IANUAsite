@@ -931,3 +931,9 @@ body.carta .nav .brand .lg-dark{display:block}
 
 /* numeri «moderni» dentro i testi in Cormorant: lo 0 non deve sembrare una o */
 .num{font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
+
+/* Gli ianui in due gruppi: i tessitori (il board) e i tenditori (allestimenti e laboratori) */
+.gruppo{font-family:var(--serif);font-weight:300;font-size:clamp(22px,2.4vw,28px);line-height:1.2;margin:0 0 clamp(18px,2.4vw,28px);color:var(--fg)}
+.gruppo em{color:var(--accent)}
+.gruppo small{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);margin-top:8px}
+.gruppo-tenditori{margin-top:clamp(56px,7vw,88px)}
