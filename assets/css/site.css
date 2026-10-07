@@ -1005,3 +1005,4 @@ body.carta .nav .brand .lg-dark{display:block}
 .pf-info a:hover{color:var(--accent);text-decoration-color:var(--accent)}
 .tech .wa{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
 .tech .wa svg.wa-ico{width:14px;height:14px;fill:currentColor}
+.nobr{white-space:nowrap}
