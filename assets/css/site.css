@@ -991,3 +991,17 @@ body.carta .nav .brand .lg-dark{display:block}
   .pt-coppia .pt-logo{height:64px}
   .pt-coppia .pt-logo img{max-height:62px}
 }
+/* pagina PRO-FILI: come su profilifestival.it */
+.pf-cura{margin-top:14px;font-family:var(--sans);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-2)}
+.pf-cura a{color:var(--fg);font-weight:500;text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:.35em}
+.pf-cura a:hover{color:var(--accent-2);text-decoration-color:var(--accent)}
+.pf-cura--meta{margin-top:clamp(22px,3vw,30px);margin-bottom:0;font-size:12px;letter-spacing:.22em}
+.page-hero .pf-cura--meta + .meta{margin-top:10px}
+.conto{display:block;margin-top:clamp(22px,3vw,36px)}
+.page-hero .pf-cd-val{font-size:clamp(28px,4.8vw,60px)}
+@media (max-width:640px){.page-hero .pf-cd-val{font-size:7vw}}
+.day-p{margin:-4px 0 6px;font-size:13.5px;line-height:1.55;color:var(--fg-2)}
+.pf-info a{text-decoration:underline;text-decoration-color:var(--rule-2);text-underline-offset:.25em}
+.pf-info a:hover{color:var(--accent);text-decoration-color:var(--accent)}
+.tech .wa{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.tech .wa svg.wa-ico{width:14px;height:14px;fill:currentColor}
