@@ -11,6 +11,13 @@
 # Qualsiasi indirizzo che non corrisponde a un file esistente mostra 404.html,
 # con il codice di stato giusto: senza il 404 i motori di ricerca
 # indicizzerebbero la pagina di errore come se fosse una pagina vera.
+# scheda tolta dal sito: chi ha il vecchio link arriva comunque da qualche parte
+[[redirects]]
+  from = "/artisti/marco-martino-scarteddu.html"
+  to = "/collettivo.html"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/404.html"
