@@ -171,7 +171,7 @@ body.menu-open .menu a{transform:none;opacity:1}
 @keyframes hintBounce{0%,100%{translate:0 -2px;opacity:.5}50%{translate:0 4px;opacity:1}}
 @keyframes hintGlow{0%{box-shadow:0 0 0 0 rgba(201,164,92,.45)}70%{box-shadow:0 0 0 10px rgba(201,164,92,0)}100%{box-shadow:0 0 0 0 rgba(201,164,92,0)}}
 @keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-.portal .skip{position:absolute;right:var(--pad);bottom:calc(28px + env(safe-area-inset-bottom));pointer-events:auto;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-2);min-height:44px;display:inline-flex;align-items:center;opacity:.7;transition:opacity var(--t-base) var(--ease-out),color var(--t-base)}
+.portal .skip{position:absolute;left:50%;right:auto;translate:-50% 0;white-space:nowrap;bottom:calc(22px + env(safe-area-inset-bottom));pointer-events:auto;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-2);min-height:44px;display:inline-flex;align-items:center;opacity:.7;transition:opacity var(--t-base) var(--ease-out),color var(--t-base)}
 .portal .skip:hover{opacity:1;color:var(--gold-2)}
 .portal .loadbar{position:absolute;left:0;bottom:0;height:2px;width:100%;transform-origin:left;transform:scaleX(0);background:var(--gold);opacity:.8;transition:transform .3s,opacity .6s}
 .portal .loadbar.done{opacity:0}
