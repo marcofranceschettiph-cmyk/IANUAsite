@@ -212,10 +212,12 @@ window.__ASSETS = (function () {
     }
     // La porta finisce presto; il resto dello scorrimento è la sosta sulla frase di chiusura.
     var VIDEO_END = 0.60;
+    var PORTAL_PACE = 0.80 / 0.94;
     function frameIndex(p) { return Math.round(range(p, 0, VIDEO_END) * LAST); }
     function progress() {
       var rect = portal.getBoundingClientRect(), total = portal.offsetHeight - innerHeight;
-      return total > 0 ? clamp(-rect.top / total, 0, 1) : 1;
+      // PORTAL_PACE: l'animazione finisce al 94% dello scorrimento, la sosta finale è corta
+      return total > 0 ? clamp(-rect.top / total, 0, 1) * PORTAL_PACE : 1;
     }
     function apply(p) {
       var i = nearest(frameIndex(p)); if (i !== cur) drawFrame(i);
@@ -341,7 +343,7 @@ window.__ASSETS = (function () {
     // compare quando la lama di luce nasce, sparisce quando dilaga il bianco.
     raf.push(function () {
       var r = portal.getBoundingClientRect(), tot = portal.offsetHeight - innerHeight;
-      var p = tot > 0 ? clamp(-r.top / tot, 0, 1) : 1;
+      var p = tot > 0 ? clamp(-r.top / tot, 0, 1) * (0.80 / 0.94) : 1;
       vis = Math.min(range(p, 0.005, 0.06), 1 - range(p, 0.46, 0.60));
       if (vis > 0.01 && !running) { running = true; requestAnimationFrame(draw); }
     });
