@@ -223,7 +223,8 @@ window.__ASSETS = (function () {
       var i = nearest(frameIndex(p)); if (i !== cur) drawFrame(i);
       var t = 1 - range(p, 0, 0.12);
       title.style.opacity = t; title.style.transform = 'translateY(' + (-(1 - t) * 40) + 'px) scale(' + (1 - (1 - t) * 0.06) + ')';
-      if (hint) hint.style.opacity = t;
+      // l'invito a scorrere sparisce appena si comincia a scorrere
+      if (hint) hint.style.opacity = 1 - range(p, 0, 0.025);
       // La frase centrale vive nella fase buia, prima che la luce dilaghi: altrimenti
       // avorio su bianco non si legge.
       var m = Math.min(range(p, 0.14, 0.22), 1 - range(p, 0.30, 0.38));
